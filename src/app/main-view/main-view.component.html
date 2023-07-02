@@ -35,17 +35,38 @@
       <ng-container matColumnDef="client">
         <th mat-header-cell *matHeaderCellDef> Klient </th>
         <td mat-cell *matCellDef="let element">
-          <p>{{element.billing.first_name}}</p>
+          <p><strong>{{element.billing.first_name}} {{element.billing.last_name}}</strong></p>
           <small>{{element.billing.email}}</small>
           <small>{{element.billing.phone}}</small>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="openModal(row)"></tr>
     </table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
   </div>
 </div>
 
+
+<div *ngIf="showDetails" class="modal">
+  <button class="close-button" (click)="closeModal()">x</button>
+
+  <h2>Dane szczegółowe - zamówienie nr. {{selectedProduct.id}}</h2>
+  <hr>
+  <h4>Dane klienta</h4>
+  <p>Imię: {{ selectedProduct.billing.first_name }}</p>
+  <p>Nazwisko: {{ selectedProduct.billing.last_name }}</p>
+  <p>Numer telefonu: {{ selectedProduct.billing.phone ? selectedProduct.billing.phone : 'Nieznany'}}</p>
+  <p>Email: {{ selectedProduct.billing.email ? selectedProduct.billing.email : 'Nieznany'}}</p>
+
+  <h4>Dane adresowe</h4>
+  <p>Kraj: {{ selectedProduct.billing.country}}</p>
+  <p>Miasto: {{ selectedProduct.billing.city}}</p>
+  <p>Powiat : {{ selectedProduct.billing.state}}</p>
+  <p>Kod pocztowy : {{ selectedProduct.billing.postcode}}</p>
+  <p>Ulica : {{ selectedProduct.billing.address_1 }}</p>
+  <p>Numer domu : {{ selectedProduct.billing.address_2}}</p>
+
+</div>
