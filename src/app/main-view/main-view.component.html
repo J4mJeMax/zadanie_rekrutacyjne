@@ -55,18 +55,23 @@
 
   <h2>Dane szczegółowe - zamówienie nr. {{selectedProduct.id}}</h2>
   <hr>
-  <h4>Dane klienta</h4>
+  <h4>Dane płatnika</h4>
   <p>Imię: {{ selectedProduct.billing.first_name }}</p>
   <p>Nazwisko: {{ selectedProduct.billing.last_name }}</p>
   <p>Numer telefonu: {{ selectedProduct.billing.phone ? selectedProduct.billing.phone : 'Nieznany'}}</p>
   <p>Email: {{ selectedProduct.billing.email ? selectedProduct.billing.email : 'Nieznany'}}</p>
 
-  <h4>Dane adresowe</h4>
-  <p>Kraj: {{ selectedProduct.billing.country}}</p>
-  <p>Miasto: {{ selectedProduct.billing.city}}</p>
-  <p>Powiat : {{ selectedProduct.billing.state}}</p>
-  <p>Kod pocztowy : {{ selectedProduct.billing.postcode}}</p>
-  <p>Ulica : {{ selectedProduct.billing.address_1 }}</p>
-  <p>Numer domu : {{ selectedProduct.billing.address_2}}</p>
+  <h4>Dane do wysyłki</h4>
+  <p>Kraj: {{ selectedProduct.shipping.country}}</p>
+  <p>Miasto: {{ selectedProduct.shipping.city}}</p>
+  <p>Powiat : {{ selectedProduct.shipping.state}}</p>
+  <p>Kod pocztowy : {{ selectedProduct.shipping.postcode}}</p>
+  <p>Ulica : {{ selectedProduct.shipping.address_1 }}</p>
+  <p>Numer domu : {{ selectedProduct.shipping.address_2}}</p>
+
+  <h4>Zamówione produkty</h4>
+  <p *ngFor="let orderedProduct of selectedProduct.line_items">
+    <strong>{{ orderedProduct.name }}</strong> x {{ orderedProduct.quantity }} = {{ orderedProduct.total }} {{ selectedProduct.currency }}
+  </p>
 
 </div>
