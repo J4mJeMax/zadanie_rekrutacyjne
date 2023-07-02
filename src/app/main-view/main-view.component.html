@@ -1,14 +1,14 @@
 <div class="main-view">
   <div class="header">
     <mat-form-field>
-      <input matInput placeholder="Wyszukaj">
+      <input matInput placeholder="Wyszukaj po id" (input)="filterRecords(search.value)" #search>
     </mat-form-field>
   </div>
 
   <div class="table">
-    <table mat-table [dataSource]="products">
+    <table mat-table [dataSource]="orders">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Zamówienie </th>
+        <th mat-header-cell *matHeaderCellDef>Zamówienie</th>
         <td mat-cell *matCellDef="let element">
           <p><strong>#{{element.id }}</strong></p>
           <button class="{{element.status}}">{{element.status}}</button>
@@ -45,7 +45,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="openModal(row)"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
   </div>
 </div>
 
@@ -53,25 +53,25 @@
 <div *ngIf="showDetails" class="modal">
   <button class="close-button" (click)="closeModal()">x</button>
 
-  <h2>Dane szczegółowe - zamówienie nr. {{selectedProduct.id}}</h2>
+  <h2>Dane szczegółowe - zamówienie nr. {{selectedOrder.id}}</h2>
   <hr>
   <h4>Dane płatnika</h4>
-  <p>Imię: {{ selectedProduct.billing.first_name }}</p>
-  <p>Nazwisko: {{ selectedProduct.billing.last_name }}</p>
-  <p>Numer telefonu: {{ selectedProduct.billing.phone ? selectedProduct.billing.phone : 'Nieznany'}}</p>
-  <p>Email: {{ selectedProduct.billing.email ? selectedProduct.billing.email : 'Nieznany'}}</p>
+  <p>Imię: {{ selectedOrder.billing.first_name }}</p>
+  <p>Nazwisko: {{ selectedOrder.billing.last_name }}</p>
+  <p>Numer telefonu: {{ selectedOrder.billing.phone ? selectedOrder.billing.phone : 'Nieznany'}}</p>
+  <p>Email: {{ selectedOrder.billing.email ? selectedOrder.billing.email : 'Nieznany'}}</p>
 
   <h4>Dane do wysyłki</h4>
-  <p>Kraj: {{ selectedProduct.shipping.country}}</p>
-  <p>Miasto: {{ selectedProduct.shipping.city}}</p>
-  <p>Powiat : {{ selectedProduct.shipping.state}}</p>
-  <p>Kod pocztowy : {{ selectedProduct.shipping.postcode}}</p>
-  <p>Ulica : {{ selectedProduct.shipping.address_1 }}</p>
-  <p>Numer domu : {{ selectedProduct.shipping.address_2}}</p>
+  <p>Kraj: {{ selectedOrder.shipping.country}}</p>
+  <p>Miasto: {{ selectedOrder.shipping.city}}</p>
+  <p>Powiat : {{ selectedOrder.shipping.state}}</p>
+  <p>Kod pocztowy : {{ selectedOrder.shipping.postcode}}</p>
+  <p>Ulica : {{ selectedOrder.shipping.address_1 }}</p>
+  <p>Numer domu : {{ selectedOrder.shipping.address_2}}</p>
 
   <h4>Zamówione produkty</h4>
-  <p *ngFor="let orderedProduct of selectedProduct.line_items">
-    <strong>{{ orderedProduct.name }}</strong> x {{ orderedProduct.quantity }} = {{ orderedProduct.total }} {{ selectedProduct.currency }}
+  <p *ngFor="let orderedProduct of selectedOrder.line_items">
+    <strong>{{ orderedProduct.name }}</strong> x {{ orderedProduct.quantity }} = {{ orderedProduct.total }} {{ selectedOrder.currency }}
   </p>
 
 </div>

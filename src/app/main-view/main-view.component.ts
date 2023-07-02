@@ -11,20 +11,19 @@ import {Product} from "../interfaces/product/product.interface";
 })
 export class MainViewComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  products: Product[] = [];
   orders: Product[] = [];
   showDetails: any = false;
-  selectedProduct: any;
+  selectedOrder: any;
   displayedColumns: string[] = ['name', 'date', 'price', 'client'];
   dataSource = new MatTableDataSource<Product>(this.orders);
 
   constructor(private woocommerceService: WoocommerceService) {}
 
-  getOrders() {
-    this.woocommerceService.getOrders()
+  getOrders(orderId? : number) {
+    this.woocommerceService.getOrders(orderId)
       .subscribe(
       (response) => {
-        this.products = response;
+        this.orders = response;
       },
       (error) => {
         console.log(error);
@@ -33,9 +32,8 @@ export class MainViewComponent {
   }
 
   openModal(element: any) {
-    console.log(element)
     this.showDetails = true;
-    this.selectedProduct = element
+    this.selectedOrder = element
   }
 
   closeModal() {
@@ -44,5 +42,10 @@ export class MainViewComponent {
 
   ngOnInit() {
     this.getOrders();
+  }
+
+  filterRecords(value: string) {
+    //  @ts-ignore
+    this.getOrders(value);
   }
 }
